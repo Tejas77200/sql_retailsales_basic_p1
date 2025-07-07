@@ -85,7 +85,7 @@ FROM retail_sales
 WHERE 
     category = 'Clothing'
     AND 
-    TO_CHAR(sale_date, 'YYYY-MM') = '2022-11'
+    sale_date between '2022-10-01' and '2022-10-30'
     AND
     quantity >= 4
 ```
@@ -97,7 +97,7 @@ SELECT
     SUM(total_sale) as net_sale,
     COUNT(*) as total_orders
 FROM retail_sales
-GROUP BY 1
+GROUP BY category
 ```
 
 4. **Write a SQL query to find the average age of customers who purchased items from the 'Beauty' category.**:
@@ -125,7 +125,7 @@ GROUP
     BY 
     category,
     gender
-ORDER BY 1
+ORDER BY category
 ```
 
 7. **Write a SQL query to calculate the average sale for each month. Find out best selling month in each year**:
@@ -142,7 +142,7 @@ SELECT
     AVG(total_sale) as avg_sale,
     RANK() OVER(PARTITION BY EXTRACT(YEAR FROM sale_date) ORDER BY AVG(total_sale) DESC) as rank
 FROM retail_sales
-GROUP BY 1, 2
+GROUP BY year, month
 ) as t1
 WHERE rank = 1
 ```
@@ -154,7 +154,7 @@ SELECT
     SUM(total_sale) as total_sales
 FROM retail_sales
 GROUP BY 1
-ORDER BY 2 DESC
+ORDER BY total_sales DESC
 LIMIT 5
 ```
 
